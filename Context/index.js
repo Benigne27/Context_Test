@@ -1,12 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { createContext} from 'react'
 
-export default function index() {
+export const ContextCreator= createContext()
+
+export default function ThemeProvider({children}) {
   return (
-    <View>
-      <Text>index</Text>
-    </View>
+    <ContextCreator.Provider>
+      {children}
+    </ContextCreator.Provider>
   )
 }
 
-const styles = StyleSheet.create({})
