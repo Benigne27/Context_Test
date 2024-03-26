@@ -25,10 +25,11 @@ export default function Input({
           width: "100%",
           borderRadius: 5,
           backgroundColor: "white",
+          color:'black'
         }}
         theme={{ roundness: 5 }}
         secureTextEntry={bool}
-        textColor="white"
+        textColor="black"
         mode="outlined"
         placeholder={placeholder}
         onChangeText={change}

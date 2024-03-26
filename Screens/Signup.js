@@ -1,20 +1,29 @@
 import { Button, Dimensions, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import Input from '../Components/Input'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { ContextCreator } from '../Context'
 
 const height=Dimensions.get('screen').height
 
 export default function Signup({navigation}) {
+  const {SignUp} = useContext(ContextCreator)
+  const [email, setEmail]=useState('')
+  const [password, setPassword]=useState('')
+  const handleSignUp=()=>{
+    SignUp(email, password)
+    
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Sign Up Below:</Text>
       <View style={styles.inputs}>
-        <Input label={'Email:'}/>
-        <Input label={'Password:'}/>
-        <Input label={'Confirm Password:'}/>
+        <Input label={'Email:'} value={email} change={setEmail}/>
+        <Input label={'Password:'} value={password} change={setPassword}/>
+        {/* <Input label={'Confirm Password:'}/> */}
       </View>
-     <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('Login')}>
+     <TouchableOpacity style={styles.button} onPress={handleSignUp}>
         <Text style={styles.text1}>Sign Up</Text>
      </TouchableOpacity>
     </View>

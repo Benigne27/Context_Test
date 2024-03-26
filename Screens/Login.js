@@ -1,19 +1,27 @@
 import { Button, Dimensions, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import Input from '../Components/Input'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { ContextCreator } from '../Context'
 
 const height=Dimensions.get('screen').height
 
 export default function Login() {
+  const {Login}=useContext(ContextCreator)
+  const [email, setEmail]=useState('')
+  const [password, setPassword]=useState('')
+  const handleLogin=()=>{
+    Login(email, password)
+   
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Login Below:</Text>
       <View style={styles.inputs}>
-        <Input label={'Email:'}/>
-        <Input label={'Password:'}/>
+        <Input label={'Email:'} value={email} change={setEmail}/>
+        <Input label={'Password:'} value={password} change={setPassword}/>
       </View>
-     <TouchableOpacity style={styles.button}>
+     <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.text1}>Login</Text>
      </TouchableOpacity>
     </View>
