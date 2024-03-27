@@ -6,12 +6,17 @@ import { ContextCreator } from '../Context'
 
 const height=Dimensions.get('screen').height
 
-export default function Login() {
+export default function Login({navigation}) {
   const {Login}=useContext(ContextCreator)
   const [email, setEmail]=useState('')
   const [password, setPassword]=useState('')
-  const handleLogin=()=>{
-    Login(email, password)
+  const handleLogin=async()=>{
+    try {
+      await Login(email, password)
+    } catch (error) {
+      console.error(error);
+    }
+    
    
   }
   return (

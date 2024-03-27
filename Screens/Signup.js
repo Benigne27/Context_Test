@@ -10,8 +10,15 @@ export default function Signup({navigation}) {
   const {SignUp} = useContext(ContextCreator)
   const [email, setEmail]=useState('')
   const [password, setPassword]=useState('')
-  const handleSignUp=()=>{
-    SignUp(email, password)
+  const [user, setUser]=useState('')
+  const handleSignUp=async()=>{
+    try {
+      await SignUp(email, password)
+ 
+    } catch (error) {
+      console.error(error);
+    }
+    
     
   }
 
@@ -19,13 +26,19 @@ export default function Signup({navigation}) {
     <View style={styles.container}>
       <Text style={styles.text}>Sign Up Below:</Text>
       <View style={styles.inputs}>
+        <Input label={'Username:'}/>
         <Input label={'Email:'} value={email} change={setEmail}/>
         <Input label={'Password:'} value={password} change={setPassword}/>
-        {/* <Input label={'Confirm Password:'}/> */}
+      
       </View>
      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
         <Text style={styles.text1}>Sign Up</Text>
      </TouchableOpacity>
+     <View style={styles.texting}>
+      <Text style={styles.text1}>Have an Account? 
+        <TouchableOpacity onPress={()=>navigation.navigate('Login')}><Text style={styles.text2}> Login Here</Text></TouchableOpacity>
+      </Text>
+     </View>
     </View>
   )
 }
@@ -52,6 +65,16 @@ const styles = StyleSheet.create({
       
 
     },
+    text2:{
+      fontSize:18,
+      fontWeight:'bold',
+      color:'black',
+      top:3
+    },
+    texting:{
+      paddingTop:30
+    },
+
     button:{
         width:370,
         height:50,

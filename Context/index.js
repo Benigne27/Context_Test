@@ -2,11 +2,19 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { createContext, useEffect, useState} from 'react'
 import { authenticate } from '../Firebase/FirebaseConfig'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { useNavigation } from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
+
 
 export const ContextCreator= createContext()
 
 export default function ThemeProvider({children}) {
   const [user, setUser]=useState(null)
+  const [logged, setLogged]=useState(false)
+  const [userName, setUserName]=useState('')
+  const [userToken, setUserToken]=useState(null)
+ 
 
   useEffect(()=>{
     const subscriber=authenticate.onAuthStateChanged((currentUser)=>
@@ -17,9 +25,9 @@ export default function ThemeProvider({children}) {
   }, [])
 
   const SignUp=async(email, password)=>{
+ 
     try {
       await createUserWithEmailAndPassword(authenticate,email, password)
-      navigation.navigate('Login')
       
     } catch (error) {
       console.error(error)
@@ -28,9 +36,19 @@ export default function ThemeProvider({children}) {
   }
 
   const Login=async(email, password)=>{
+   
     try {
-      await signInWithEmailAndPassword(authenticate, email, password)
-      navigation.navigate('Home')
+      const credentials= await signInWithEmailAndPassword(authenticate, email, password)
+      console.log(credentials.user.stsTokenManager.accessToken)
+      setLogged(true)
+      setUserToken(credentials.user.stsTokenManager.accessToken)
+      try {
+        await AsyncStorage.setItem('userToken', JSON.stringify(credentials.user.stsTokenManager.accessToken))
+      } catch (error) {
+        console.error(error);
+      }
+1
+     
     } catch (error) {
       console.error(error);
     }
@@ -40,7 +58,9 @@ export default function ThemeProvider({children}) {
     <ContextCreator.Provider value={{
       user,
       SignUp,
-      Login
+      Login,
+      logged,
+      userToken
     }}>
       {children}
     </ContextCreator.Provider>

@@ -6,21 +6,41 @@ import Signup from './Screens/Signup';
 import Login from './Screens/Login';
 import ThemeProvider from './Context';
 import Home from './Screens/Home';
+import { ContextCreator } from './Context/index';
+import { useContext } from 'react';
 
 const Stack = createStackNavigator()
 
 export default function App() {
+
   return (
     <ThemeProvider>
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown:false}}>
-        <Stack.Screen name='SignUp' component={Signup}/>
-        <Stack.Screen name='Login' component={Login}/>
-        <Stack.Screen name='Home' component={Home}/>
-      </Stack.Navigator>
+      <StackNav/>
     </NavigationContainer>
     </ThemeProvider>
   );
+}
+
+const StackNav=()=>{
+  const {userToken, logged} = useContext(ContextCreator)
+  return(
+    <Stack.Navigator screenOptions={{headerShown:false}}>
+        {
+          logged || userToken !==null ?(
+            <>
+             <Stack.Screen name='Home' component={Home}/></>
+          ):(
+            <>
+            <Stack.Screen name='SignUp' component={Signup}/>
+            <Stack.Screen name='Login' component={Login}/>
+            </>
+          )
+        }
+        
+       
+      </Stack.Navigator>
+  )
 }
 
 const styles = StyleSheet.create({
