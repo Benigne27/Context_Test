@@ -12,12 +12,7 @@ export default function Signup({navigation}) {
   const [password, setPassword]=useState('')
   const [user, setUser]=useState('')
   const handleSignUp=async()=>{
-    try {
-      await SignUp(email, password)
- 
-    } catch (error) {
-      console.error(error);
-    }
+    SignUp(email, password)
     
     
   }

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, { createContext, useEffect, useState} from 'react'
 import { authenticate } from '../Firebase/FirebaseConfig'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -54,13 +54,30 @@ export default function ThemeProvider({children}) {
     }
   }
 
+  const LogOut=async()=>{
+    try {
+      await signOut(authenticate)
+      try {
+        await AsyncStorage.removeItem('userToken')
+        setUserToken(null)
+      } catch (error) {
+        console.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+  }
+
   return (
     <ContextCreator.Provider value={{
       user,
       SignUp,
       Login,
       logged,
-      userToken
+      userToken,
+      setUserToken,
+      LogOut
     }}>
       {children}
     </ContextCreator.Provider>

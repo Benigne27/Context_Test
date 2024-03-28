@@ -7,7 +7,8 @@ import Login from './Screens/Login';
 import ThemeProvider from './Context';
 import Home from './Screens/Home';
 import { ContextCreator } from './Context/index';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createStackNavigator()
 
@@ -23,13 +24,27 @@ export default function App() {
 }
 
 const StackNav=()=>{
-  const {userToken, logged} = useContext(ContextCreator)
+  const {userToken,setUserToken, logged} = useContext(ContextCreator)
+  
+  const userTok=async()=>{
+    try {
+      const credit=await AsyncStorage.getItem('userToken')
+      setUserToken(credit)
+      
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  useEffect(()=>{
+    userTok()
+  },[])
   return(
     <Stack.Navigator screenOptions={{headerShown:false}}>
         {
           logged || userToken !==null ?(
             <>
-             <Stack.Screen name='Home' component={Home}/></>
+             <Stack.Screen name='Home' component={Home}/>
+             </>
           ):(
             <>
             <Stack.Screen name='SignUp' component={Signup}/>
