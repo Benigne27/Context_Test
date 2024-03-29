@@ -9,6 +9,7 @@ import Home from './Screens/Home';
 import { ContextCreator } from './Context/index';
 import { useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getItemAsync } from 'expo-secure-store';
 
 const Stack = createStackNavigator()
 
@@ -28,7 +29,8 @@ const StackNav=()=>{
   
   const userTok=async()=>{
     try {
-      const credit=await AsyncStorage.getItem('userToken')
+      // const credit=await AsyncStorage.getItem('userToken')
+      const credit= await getItemAsync('userToken')
       setUserToken(credit)
       
     } catch (error) {

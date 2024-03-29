@@ -4,6 +4,7 @@ import { authenticate } from '../Firebase/FirebaseConfig'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { deleteItemAsync, setItemAsync } from 'expo-secure-store'
 
 
 
@@ -43,7 +44,8 @@ export default function ThemeProvider({children}) {
       setLogged(true)
       setUserToken(credentials.user.stsTokenManager.accessToken)
       try {
-        await AsyncStorage.setItem('userToken', JSON.stringify(credentials.user.stsTokenManager.accessToken))
+        // await AsyncStorage.setItem('userToken', JSON.stringify(credentials.user.stsTokenManager.accessToken))
+        await setItemAsync('userToken',JSON.stringify(credentials.user.stsTokenManager.accessToken))
       } catch (error) {
         console.error(error);
       }
@@ -58,7 +60,8 @@ export default function ThemeProvider({children}) {
     try {
       await signOut(authenticate)
       try {
-        await AsyncStorage.removeItem('userToken')
+        // await AsyncStorage.removeItem('userToken')
+        await deleteItemAsync('userToken')
         setUserToken(null)
       } catch (error) {
         console.error(error);
