@@ -3,22 +3,32 @@ import React, { useContext, useState } from 'react'
 import Input from '../Components/Input'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { ContextCreator } from '../Context'
+import { setItemAsync } from 'expo-secure-store'
 
 const height=Dimensions.get('screen').height 
 
 export default function Login({navigation}) {
-  const {Login}=useContext(ContextCreator)
+  const {Login, TheUser}=useContext(ContextCreator)
   const [email, setEmail]=useState('')
   const [password, setPassword]=useState('')
+  const [newUserName, setNewUserName]=useState('')
   const handleLogin=async()=>{
-    Login(email, password)   
-    
+    try {
+      const user= await setItemAsync('userName', JSON.stringify(newUserName))
+      console.log(user)
+    } catch (error) {
+      console.error(error);
+    }
+    Login(email, password) 
+
+    TheUser(newUserName)
    
   }
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Login Below:</Text>
       <View style={styles.inputs}>
+        <Input label={'UserName:'} value={newUserName} change={setNewUserName}/>
         <Input label={'Email:'} value={email} change={setEmail}/>
         <Input label={'Password:'} value={password} change={setPassword}/>
       </View>

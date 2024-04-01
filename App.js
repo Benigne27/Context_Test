@@ -25,7 +25,7 @@ export default function App() {
 }
 
 const StackNav=()=>{
-  const {userToken,setUserToken, logged} = useContext(ContextCreator)
+  const {userToken,setUserToken, logged, userName} = useContext(ContextCreator)
   
   const userTok=async()=>{
     try {
@@ -43,7 +43,7 @@ const StackNav=()=>{
   return(
     <Stack.Navigator screenOptions={{headerShown:false}}>
         {
-          logged || userToken !==null ?(
+          logged || userToken !=null ?(
             <>
              <Stack.Screen name='Home' component={Home}/>
              </>

@@ -25,6 +25,14 @@ export default function ThemeProvider({children}) {
     return subscriber
   }, [])
 
+  const TheUser=(newUser)=>{
+    try {
+      setUserName(newUser)
+      console.log(newUser)
+    } catch (error) {
+      console.error(error);
+    }
+  }
   const SignUp=async(email, password)=>{
  
     try {
@@ -46,6 +54,7 @@ export default function ThemeProvider({children}) {
       try {
         // await AsyncStorage.setItem('userToken', JSON.stringify(credentials.user.stsTokenManager.accessToken))
         await setItemAsync('userToken',JSON.stringify(credentials.user.stsTokenManager.accessToken))
+        
       } catch (error) {
         console.error(error);
       }
@@ -58,7 +67,6 @@ export default function ThemeProvider({children}) {
 
   const LogOut=async()=>{
     try {
-      await signOut(authenticate)
       try {
         // await AsyncStorage.removeItem('userToken')
         await deleteItemAsync('userToken')
@@ -66,6 +74,7 @@ export default function ThemeProvider({children}) {
       } catch (error) {
         console.error(error);
       }
+      await signOut(authenticate)
     } catch (error) {
       console.error(error);
     }
@@ -80,7 +89,9 @@ export default function ThemeProvider({children}) {
       logged,
       userToken,
       setUserToken,
-      LogOut
+      LogOut,
+      userName,
+      TheUser,
     }}>
       {children}
     </ContextCreator.Provider>

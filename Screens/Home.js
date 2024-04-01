@@ -1,13 +1,27 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { ContextCreator } from '../Context'
+import { getItemAsync } from 'expo-secure-store'
 
 export default function Home() {
-  const {LogOut}=useContext(ContextCreator)
+  const {LogOut, userName, TheUser}=useContext(ContextCreator)
+  const User=async()=>{
+    try {
+      const name=await getItemAsync('userName')
+      TheUser(JSON.parse(name))
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // useEffect(()=>{
+  //   User()
+  // }, [])
+
   return (
     <View style={styles.contain}>
-      <Text style={styles.text}>Welcome Home</Text>
+      <Text style={styles.texts}>Welcome <Text style={styles.text}>{userName}</Text>,</Text>
       <TouchableOpacity style={styles.button} onPress={LogOut}>
       <Text style={styles.text1}>Sign Out</Text>
         </TouchableOpacity>
@@ -20,6 +34,12 @@ const styles = StyleSheet.create({
     flex:1,
     alignItems:'center',
     justifyContent:'center'
+  },
+  texts:{
+    fontSize:30,
+    color:'black',
+    fontWeight:'bold',
+    bottom:100
   },
   text:{
     fontSize:30,
