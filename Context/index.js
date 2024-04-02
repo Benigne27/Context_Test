@@ -15,6 +15,7 @@ export default function ThemeProvider({children}) {
   const [logged, setLogged]=useState(false)
   const [userName, setUserName]=useState('')
   const [userToken, setUserToken]=useState(null)
+  const [dark, setDark]=useState(false)
  
 
   useEffect(()=>{
@@ -24,6 +25,11 @@ export default function ThemeProvider({children}) {
     })
     return subscriber
   }, [])
+
+  const DarkMode=()=>{
+    setDark(!dark)
+    setItemAsync('darkMode', JSON.stringify(dark))
+  }
 
   const TheUser=(newUser)=>{
     try {
@@ -92,6 +98,8 @@ export default function ThemeProvider({children}) {
       LogOut,
       userName,
       TheUser,
+      DarkMode,
+      dark
     }}>
       {children}
     </ContextCreator.Provider>

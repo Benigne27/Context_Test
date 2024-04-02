@@ -10,11 +10,24 @@ import { ContextCreator } from './Context/index';
 import { useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getItemAsync } from 'expo-secure-store';
+import AppLoading from 'expo-app-loading/build';
+import {useFonts, RubikGlitch_400Regular} from '@expo-google-fonts/rubik-glitch'
+import {Satisfy_400Regular} from '@expo-google-fonts/satisfy'
+
 
 const Stack = createStackNavigator()
 
 export default function App() {
 
+  let [fontsLoading]=useFonts({
+    RubikGlitch_400Regular,
+    Satisfy_400Regular
+  })
+  
+
+if (!fontsLoading) {
+  return <AppLoading/>
+} else {
   return (
     <ThemeProvider>
     <NavigationContainer>
@@ -22,6 +35,9 @@ export default function App() {
     </NavigationContainer>
     </ThemeProvider>
   );
+}
+
+  
 }
 
 const StackNav=()=>{
